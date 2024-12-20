@@ -29,9 +29,9 @@ variable "user_pub_key" {
 }
 
 variable "kubernetes_version" {
-  type = string
+  type        = string
   description = "Version of Kubernetes to deploy"
-  default = "1.30"
+  default     = "1.30"
 }
 
 # vm information
@@ -55,11 +55,11 @@ variable "vm_description" {
 
 variable "vm_tags" {
   description = "Tags for thee"
-  type        = object({
+  type = object({
     tags = list(string)
   })
   default = {
-    tags = [ "k8s","kubernetes"]
+    tags = ["k8s", "kubernetes"]
   }
 }
 
@@ -91,7 +91,7 @@ variable "vm_ip_config" {
 
 variable "dns_configuration" {
   description = "DNS config for VMs"
-  type        = object({
+  type = object({
     domain  = string
     servers = list(string)
   })
@@ -99,13 +99,25 @@ variable "dns_configuration" {
 
 variable "workers" {
   type = list(object({
-    node = string # node to run on
-    name = string
+    node         = string # node to run on
+    name         = string
     vm_cpu_cores = number
-    vm_memory = number
-    ip = string
-    image_type = string
-    id_offset = number
+    vm_memory    = number
+    ip           = string
+    image_type   = string
+    id_offset    = number
+  }))
+}
+
+variable "controlplanes" {
+  type = list(object({
+    node         = string # node to run on
+    name         = string
+    vm_cpu_cores = number
+    vm_memory    = number
+    ip           = string
+    image_type   = string
+    id_offset    = number
   }))
 }
 
@@ -118,22 +130,22 @@ variable "vm_images" {
     checksum_algorithm = string
     datastore_id       = string
   }))
-  default = [ {
-    name = "amd64"
-    filename = "kuberneetes-debian-12-generic-amd64-20240507-1740.img"
-    url = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-amd64-20240507-1740.qcow2"
-    checksum = "f7ac3fb9d45cdee99b25ce41c3a0322c0555d4f82d967b57b3167fce878bde09590515052c5193a1c6d69978c9fe1683338b4d93e070b5b3d04e99be00018f25"
+  default = [{
+    name               = "amd64"
+    filename           = "kuberneetes-debian-12-generic-amd64-20240507-1740.img"
+    url                = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-amd64-20240507-1740.qcow2"
+    checksum           = "f7ac3fb9d45cdee99b25ce41c3a0322c0555d4f82d967b57b3167fce878bde09590515052c5193a1c6d69978c9fe1683338b4d93e070b5b3d04e99be00018f25"
     checksum_algorithm = "sha512"
-    datastore_id = "local"
-  },
-  {
-    name = "arm64"
-    filename = "kuberneetes-debian-12-generic-arm64-20240507-1740.img"
-    url = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-arm64-20240507-1740.qcow2"
-    checksum = "626a4793a747b334cf3bc1acc10a5b682ad5db41fabb491c9c7062001e5691c215b2696e02ba6dd7570652d99c71c16b5f13b694531fb1211101d64925a453b8"
-    checksum_algorithm = "sha512"
-    datastore_id = "local"
-  }
+    datastore_id       = "local"
+    },
+    {
+      name               = "arm64"
+      filename           = "kuberneetes-debian-12-generic-arm64-20240507-1740.img"
+      url                = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-arm64-20240507-1740.qcow2"
+      checksum           = "626a4793a747b334cf3bc1acc10a5b682ad5db41fabb491c9c7062001e5691c215b2696e02ba6dd7570652d99c71c16b5f13b694531fb1211101d64925a453b8"
+      checksum_algorithm = "sha512"
+      datastore_id       = "local"
+    }
   ]
 }
 
@@ -144,19 +156,19 @@ variable "cloud_init_configuration_datastore_id" {
 }
 
 variable "cloud_init_configuration_apt_primary_mirror_uri" {
-  type = string
+  type        = string
   description = "Default mirror to use for download resources"
-  default = "https://deb.debian.org/debian"
+  default     = "https://deb.debian.org/debian"
 }
 
 variable "cloud_init_configuration_apt_security_mirror_uri" {
-  type = string
+  type        = string
   description = "Default security mirror to use for download resources"
-  default = "http://security.debian.org/debian-security/"
+  default     = "http://security.debian.org/debian-security/"
 }
 
 variable "cloud_init_configuration_timezone" {
-  type = string
+  type        = string
   description = "Timezone of VM"
-  default = "Europe/Berlin" 
+  default     = "Europe/Berlin"
 }
