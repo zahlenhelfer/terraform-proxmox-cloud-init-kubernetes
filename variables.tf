@@ -1,5 +1,5 @@
 # proxmox vm information
-variable "node_name" {
+variable "pve_node_name" {
   type        = string
   description = "Node to deploy services to"
   default     = "pve"
