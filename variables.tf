@@ -41,18 +41,6 @@ variable "vm_id" {
   default     = 10000
 }
 
-variable "vm_name" {
-  type        = string
-  description = "Name of vm"
-  default     = "kubernetes-controlplane"
-}
-
-variable "vm_description" {
-  type        = string
-  description = "Description for the vm"
-  default     = "Kubernetes Controlplane"
-}
-
 variable "vm_tags" {
   description = "Tags for thee"
   type = object({
@@ -63,30 +51,15 @@ variable "vm_tags" {
   }
 }
 
-variable "vm_cpu_cores" {
-  type        = number
-  description = "Amount of cores to use"
-  default     = 2
-}
-
-variable "vm_memory" {
-  type        = number
-  description = "Amount of dedicated memory to allocatee"
-  default     = 4096
-}
-
 variable "vm_datastore_id" {
   type        = string
   description = "Datastore to use for drives"
   default     = "local-lvm"
 }
 
-variable "vm_ip_config" {
-  description = "IP config for VM"
-  type = object({
-    address = string
-    gateway = string
-  })
+variable "network_gateway" {
+  description = "Gatway config for VM"
+  type        = string
 }
 
 variable "dns_configuration" {
@@ -111,13 +84,14 @@ variable "workers" {
 
 variable "controlplanes" {
   type = list(object({
-    node         = string # node to run on
-    name         = string
-    vm_cpu_cores = number
-    vm_memory    = number
-    ip           = string
-    image_type   = string
-    id_offset    = number
+    node           = string # node to run on
+    name           = string
+    vm_description = string
+    vm_cpu_cores   = number
+    vm_memory      = number
+    ip             = string
+    image_type     = string
+    id_offset      = number
   }))
 }
 

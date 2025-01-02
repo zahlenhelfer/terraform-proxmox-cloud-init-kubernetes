@@ -64,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "k8s-worker-node" {
     ip_config {
       ipv4 {
         address = each.value.ip
-        gateway = var.vm_ip_config.gateway
+        gateway = var.network_gateway
       }
     }
 

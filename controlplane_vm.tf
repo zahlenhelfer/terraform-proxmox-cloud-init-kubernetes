@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
   for_each      = { for each in var.controlplanes : each.name => each }
   node_name     = each.value.node
   name          = each.value.name
-  description   = var.vm_description
+  description   = each.value.vm_description
   tags          = var.vm_tags.tags
   on_boot       = true
   vm_id         = var.vm_id + each.value.id_offset
@@ -61,7 +61,7 @@ resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
     ip_config {
       ipv4 {
         address = each.value.ip
-        gateway = var.vm_ip_config.gateway
+        gateway = var.network_gateway
       }
     }
 
