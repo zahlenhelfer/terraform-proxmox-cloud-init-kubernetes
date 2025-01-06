@@ -18,7 +18,7 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
       #kube related
       kubernetes_version = var.kubernetes_version
       # deploy without kube-proxy
-      kubeadm_cmd = var.deploy_kubeproxy ? "kubeadm init --pod-network-cidr=192.168.0.0/16" : "kubeadm init --skip-phases=addon/kube-proxy"
+      kubeadm_cmd = "kubeadm init --skip-phases=addon/kube-proxy"
 
     })
     file_name = format("%s-%s.yaml", "cloud-init-kubernetes-controlplane", each.value.name)
