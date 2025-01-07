@@ -146,9 +146,3 @@ variable "cloud_init_configuration_timezone" {
   description = "Timezone of VM"
   default     = "Europe/Berlin"
 }
-
-variable "deploy_kubeproxy" {
-  type        = bool
-  default     = false
-  description = "Install with kube-proxy"
-}
