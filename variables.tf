@@ -73,24 +73,24 @@ variable "dns_configuration" {
 variable "workers" {
   type = list(object({
     node           = optional(string, "pve")
-    name           = string
+    name           = optional(string, "worker-0")
     vm_description = optional(string, "Kubernetes Data-Plane")
     vm_cpu_cores   = optional(number, 2)
     vm_memory      = optional(number, 2048)
-    ip             = string
+    ip             = optional(string, "192.168.178.30/24")
     image_type     = optional(string, "amd64")
-    id_offset      = number
+    id_offset      = optional(number, 10)
   }))
 }
 
 variable "controlplanes" {
   type = list(object({
     node           = optional(string, "pve")
-    name           = string
+    name           = optional(string, "cp-0")
     vm_description = optional(string, "Kubernetes Control-Plane")
     vm_cpu_cores   = optional(number, 2)
     vm_memory      = optional(number, 4096)
-    ip             = string
+    ip             = optional(string, "192.168.178.20/24")
     image_type     = optional(string, "amd64")
     id_offset      = optional(number, 0)
   }))
