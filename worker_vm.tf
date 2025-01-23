@@ -8,7 +8,7 @@ resource "proxmox_virtual_environment_vm" "k8s-worker-node" {
 
   node_name     = each.value.node
   name          = each.value.name
-  description   = "kubernetes worker node"
+  description   = each.value.vm_description
   tags          = var.vm_tags.tags
   on_boot       = true
   vm_id         = var.vm_id + each.value.id_offset
