@@ -19,6 +19,12 @@ resource "local_file" "ctrl-ip" {
   file_permission = "0644"
 }
 
+resource "local_file" "ctrl-var" {
+  content         = var.controlplanes[0].name
+  filename        = "output/dbg-var-name.txt"
+  file_permission = "0644"
+}
+
 resource "local_file" "dbg-ip" {
   content         = jsonencode(proxmox_virtual_environment_vm.k8s-ctrl)
   filename        = "output/dbg-ctrl-ip.txt"
