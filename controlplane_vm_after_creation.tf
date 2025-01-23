@@ -12,6 +12,12 @@ output "ctrl_ipv4_address" {
   depends_on = [proxmox_virtual_environment_vm.k8s-ctrl]
   value      = proxmox_virtual_environment_vm.k8s-ctrl["cp-0"].ipv4_addresses[1][0]
 }
+
+output "debug_ctrl_ipv4_address" {
+  depends_on = [proxmox_virtual_environment_vm.k8s-ctrl]
+  value      = proxmox_virtual_environment_vm.k8s-ctrl[*]
+}
+
 resource "local_file" "ctrl-ip" {
   content         = proxmox_virtual_environment_vm.k8s-ctrl["cp-0"].ipv4_addresses[1][0]
   filename        = "output/ctrl-ip.txt"
