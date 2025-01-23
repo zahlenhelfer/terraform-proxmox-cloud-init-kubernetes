@@ -20,7 +20,7 @@ resource "local_file" "ctrl-ip" {
 }
 
 resource "local_file" "dbg-ip" {
-  content         = proxmox_virtual_environment_vm.k8s-ctrl.*
+  content         = jsonencode(proxmox_virtual_environment_vm.k8s-ctrl)
   filename        = "output/dbg-ctrl-ip.txt"
   file_permission = "0644"
 }
