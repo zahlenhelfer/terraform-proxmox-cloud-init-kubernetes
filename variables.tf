@@ -80,6 +80,14 @@ variable "workers" {
     image_type   = string
     id_offset    = number
   }))
+  default = [{
+    node           = "pve"
+    vm_description = "Kubernetes Data-Plane"
+    vm_cpu_cores   = 2
+    vm_memory      = 2048
+    image_type     = "amd64"
+    id_offset      = 0
+  }]
 }
 
 variable "controlplanes" {
@@ -93,6 +101,14 @@ variable "controlplanes" {
     image_type     = string
     id_offset      = number
   }))
+  default = [{
+    node           = "pve"
+    vm_description = "Kubernetes Control-Plane"
+    vm_cpu_cores   = 2
+    vm_memory      = 4096
+    image_type     = "amd64"
+    id_offset      = 0
+  }]
 }
 
 variable "vm_images" {
