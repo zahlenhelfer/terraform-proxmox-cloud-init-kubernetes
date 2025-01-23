@@ -72,43 +72,28 @@ variable "dns_configuration" {
 
 variable "workers" {
   type = list(object({
-    node         = string # node to run on
-    name         = string
-    vm_cpu_cores = number
-    vm_memory    = number
-    ip           = string
-    image_type   = string
-    id_offset    = number
+    node           = optional(string, "pve")
+    name           = string
+    vm_description = optional(string, "Kubernetes Data-Plane")
+    vm_cpu_cores   = optional(number, 2)
+    vm_memory      = optional(number, 2048)
+    ip             = string
+    image_type     = optional(string, "amd64")
+    id_offset      = number
   }))
-  default = [{
-    node           = "pve"
-    vm_description = "Kubernetes Data-Plane"
-    vm_cpu_cores   = 2
-    vm_memory      = 2048
-    image_type     = "amd64"
-    id_offset      = 0
-  }]
 }
 
 variable "controlplanes" {
   type = list(object({
-    node           = string # node to run on
+    node           = optional(string, "pve")
     name           = string
-    vm_description = string
-    vm_cpu_cores   = number
-    vm_memory      = number
+    vm_description = optional(string, "Kubernetes Control-Plane")
+    vm_cpu_cores   = optional(number, 2)
+    vm_memory      = optional(number, 4096)
     ip             = string
-    image_type     = string
-    id_offset      = number
+    image_type     = optional(string, "amd64")
+    id_offset      = optional(number, 0)
   }))
-  default = [{
-    node           = "pve"
-    vm_description = "Kubernetes Control-Plane"
-    vm_cpu_cores   = 2
-    vm_memory      = 4096
-    image_type     = "amd64"
-    id_offset      = 0
-  }]
 }
 
 variable "vm_images" {
