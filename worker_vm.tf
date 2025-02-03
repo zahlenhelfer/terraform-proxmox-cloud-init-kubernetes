@@ -1,17 +1,17 @@
 resource "macaddress" "mac" {
   for_each = { for each in var.workers : each.name => each }
-} 
+}
 
 resource "proxmox_virtual_environment_vm" "k8s-worker-node" {
-  depends_on = [ module.kubeadm-join ] #create only after control plane is done
-  for_each = { for each in var.workers : each.name => each }
+  depends_on = [module.kubeadm-join] #create only after control plane is done
+  for_each   = { for each in var.workers : each.name => each }
 
   node_name     = each.value.node
   name          = each.value.name
-  description   = "kubernetes worker node"
+  description   = each.value.vm_description
   tags          = var.vm_tags.tags
   on_boot       = true
-  vm_id         = "${var.vm_id + each.value.id_offset}"
+  vm_id         = var.vm_id + each.value.id_offset
   machine       = "q35"
   scsi_hardware = "virtio-scsi-single"
   bios          = "ovmf"
@@ -53,7 +53,7 @@ resource "proxmox_virtual_environment_vm" "k8s-worker-node" {
   }
 
   operating_system { # Linux Kernel 2.6 - 6.X.
-    type = "l26" 
+    type = "l26"
   }
 
   initialization {
@@ -64,7 +64,7 @@ resource "proxmox_virtual_environment_vm" "k8s-worker-node" {
     ip_config {
       ipv4 {
         address = each.value.ip
-        gateway = var.vm_ip_config.gateway
+        gateway = var.network_gateway
       }
     }
 

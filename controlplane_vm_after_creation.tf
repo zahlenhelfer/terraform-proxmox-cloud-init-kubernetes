@@ -10,10 +10,11 @@
 #Step 1: write ip for backup reasons to disk (required for step 3 and 4)
 output "ctrl_ipv4_address" {
   depends_on = [proxmox_virtual_environment_vm.k8s-ctrl]
-  value      = proxmox_virtual_environment_vm.k8s-ctrl.ipv4_addresses[1][0]
+  value      = proxmox_virtual_environment_vm.k8s-ctrl[var.controlplanes[0].name].ipv4_addresses[1][0]
 }
+
 resource "local_file" "ctrl-ip" {
-  content         = proxmox_virtual_environment_vm.k8s-ctrl.ipv4_addresses[1][0]
+  content         = proxmox_virtual_environment_vm.k8s-ctrl[var.controlplanes[0].name].ipv4_addresses[1][0]
   filename        = "output/ctrl-ip.txt"
   file_permission = "0644"
 }

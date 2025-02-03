@@ -1,24 +1,25 @@
 resource "macaddress" "k8s-ctrl-mac" {} #generate a fresh random mac address
 
 resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
-  depends_on = [macaddress.k8s-ctrl-mac]
-  node_name   = var.node_name
-  name        = var.vm_name
-  description = var.vm_description
-  tags        = var.vm_tags.tags
-  on_boot     = true
-  vm_id       = var.vm_id
+  depends_on    = [macaddress.k8s-ctrl-mac]
+  for_each      = { for each in var.controlplanes : each.name => each }
+  node_name     = each.value.node
+  name          = each.value.name
+  description   = each.value.vm_description
+  tags          = var.vm_tags.tags
+  on_boot       = true
+  vm_id         = var.vm_id + each.value.id_offset
   machine       = "q35"
   scsi_hardware = "virtio-scsi-single"
   bios          = "ovmf"
 
   cpu {
-    cores = var.vm_cpu_cores
+    cores = each.value.vm_cpu_cores
     type  = "host"
   }
 
   memory {
-    dedicated = var.vm_memory
+    dedicated = each.value.vm_memory
   }
 
   network_device {
@@ -34,7 +35,7 @@ resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
 
   disk {
     datastore_id = var.vm_datastore_id
-    file_id      = proxmox_virtual_environment_download_file.image["amd64"].id
+    file_id      = proxmox_virtual_environment_download_file.image[each.value.image_type].id
     interface    = "scsi0"
     cache        = "writethrough"
     discard      = "on"
@@ -49,7 +50,7 @@ resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
   }
 
   operating_system {
-    type = "l26" 
+    type = "l26"
   }
 
   initialization {
@@ -59,12 +60,12 @@ resource "proxmox_virtual_environment_vm" "k8s-ctrl" {
     }
     ip_config {
       ipv4 {
-        address = var.vm_ip_config.address
-        gateway = var.vm_ip_config.gateway
+        address = each.value.ip
+        gateway = var.network_gateway
       }
     }
 
     datastore_id      = var.vm_datastore_id
-    user_data_file_id = proxmox_virtual_environment_file.cloud-init-kubernetes-controlplane.id
+    user_data_file_id = proxmox_virtual_environment_file.cloud-init-kubernetes-controlplane[each.value.name].id
   }
 }
