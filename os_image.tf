@@ -2,7 +2,7 @@
 resource "proxmox_virtual_environment_download_file" "image" {
   for_each = { for each in var.os_images : each.name => each }
 
-  node_name          = var.pve_node_name
+  node_name          = var.pve_default_node
   content_type       = "iso"
   datastore_id       = each.value.datastore_id
   file_name          = each.value.filename

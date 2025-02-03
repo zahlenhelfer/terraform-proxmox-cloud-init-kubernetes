@@ -1,7 +1,17 @@
+/**
+* Proxmox related configuration.
+*/
+variable "pve_default_node" {
+  type        = string
+  description = "Default Node to use for proxmox interactions"
+  default     = "pve"
+}
+
 
 /**
 * OS Image configuration to use in kubernetes deployments.
 * Defaults are just a example pick. Please update accordingly.
+* It is adviced to use a network attached storage as datastore to provide image to all nodes in proxmox cluster.
 */
 variable "os_images" {
   type = list(object({
