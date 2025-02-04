@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_download_file" "image" {
 
   node_name          = var.pve_default_node
   content_type       = "iso"
-  datastore_id       = each.value.datastore_id
+  datastore_id       = coalesce(each.value.datastore_id, var.pve_default_datastore_id)
   file_name          = each.value.filename
   url                = each.value.url
   checksum           = each.value.checksum

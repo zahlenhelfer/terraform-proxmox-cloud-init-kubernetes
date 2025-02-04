@@ -1,0 +1,37 @@
+#cloud-config
+
+users:
+  - name: ${user}
+    passwd: ${user_password}
+    groups: 
+      - sudo
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ${user_pub_key}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+
+hostname: ${hostname}
+timezone: ${timezone}
+
+apt:
+  primary:
+    - arches: [amd64, arm64, i386, default]
+      uri: ${debian_primary_mirror}
+  security:
+    - arches: [default]
+      uri: ${debian_primary_security_mirror}
+
+package_update: true
+package_upgrade: true
+
+packages:
+  - qemu-guest-agent
+  - apt-transport-https
+  - ca-certificates
+  - curl
+  - gpg
+  - postgresql
+  - postgresql-client
+
+
