@@ -19,6 +19,11 @@ variable "pve_default_timezone" {
   default     = "Europe/Berlin"
 }
 
+variable "pve_network_default_gateway" {
+  type = string
+  description = "Default gateway for each vm."
+}
+
 variable "dns_configuration" {
   description = "DNS config for VMs"
   type = object({
@@ -171,4 +176,9 @@ variable "postgres_vm_arch" {
 variable "postgres_vm_ipv4" {
   type        = string
   description = "IPv4 of postgresql vm."
+}
+
+variable "postgres_vm_network_gateway" {
+  type        = string
+  description = "Specific network gateway for postgre vm."
 }
