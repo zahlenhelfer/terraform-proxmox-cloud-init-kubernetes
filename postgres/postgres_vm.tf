@@ -68,8 +68,8 @@ resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
     }
     ip_config {
       ipv4 {
-        address = each.value.ip
-        gateway = var.network_gateway
+        address = var.postgres_vm_ipv4
+        gateway = coalesce(var.postgres_vm_network_gateway, var.pve_network_default_gateway)
       }
     }
 
