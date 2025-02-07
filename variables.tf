@@ -180,5 +180,6 @@ variable "postgres_vm_ipv4" {
 
 variable "postgres_vm_network_gateway" {
   type        = string
+  nullable = true
   description = "Specific network gateway for postgre vm."
 }
