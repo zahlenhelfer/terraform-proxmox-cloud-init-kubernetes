@@ -16,6 +16,7 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-postgres" {
       debian_primary_security_mirror = var.debian_primary_security_mirror
       #postgresql related
       postgre_admin_pw = var.postgres_conf_admin_pw
+      postgre_kine_pw = var.postgres_conf_kine_pw
       postgre_config_address = var.postgres_conf_network_address
     })
     file_name = format("%s-%s.yaml", var.postgres_vm_id, var.postgres_vm_name)
