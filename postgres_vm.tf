@@ -50,6 +50,13 @@ resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
     size         = coalesce(var.postgres_vm_disk_size, 32)
   }
 
+  /**
+  * FIX: seems to be requiered by debain 12 as is requests a serial_device on socket 0
+  */
+  serial_device {
+    device = "socket"
+  }
+
   boot_order = ["scsi0"]
 
   agent {
