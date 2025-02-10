@@ -72,7 +72,7 @@ resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
       }
     }
 
-    datastore_id      = var.postgres_vm_ipv4
+    datastore_id      = var.pve_default_datastore_id
     user_data_file_id = proxmox_virtual_environment_file.cloud-init-kubernetes-postgres.id
   }
 }
