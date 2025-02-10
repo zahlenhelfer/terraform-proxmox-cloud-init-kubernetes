@@ -183,3 +183,8 @@ variable "postgres_vm_network_gateway" {
   nullable = true
   description = "Specific network gateway for postgre vm."
 }
+
+variable "postgres_conf_admin_pw" {
+  type = string
+  description = "Admin password for postgresql admin user"
+}

@@ -35,6 +35,7 @@ packages:
   - postgresql-client
 
 runcmd:
+  - sudo -u postgres psql -c "ALTER USER postgres PASSWORD '${postgre_admin_pw}';"
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
 
