@@ -1,4 +1,4 @@
-resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane" {
+resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-postgres" {
   node_name    = coalesce(var.postgres_vm_node, var.pve_default_node)
   content_type = "snippets"
   datastore_id = var.pve_default_datastore_id
