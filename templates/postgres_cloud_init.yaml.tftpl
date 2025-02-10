@@ -36,6 +36,8 @@ packages:
 
 runcmd:
   - sudo -u postgres psql -c "ALTER USER postgres PASSWORD '${postgre_admin_pw}';"
+  - echo "host    all             all             ${postgre_config_address}            md5" >> /etc/postgresql/15/main/pg_hba.conf 
+  - systemctl restart postgresql
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
 

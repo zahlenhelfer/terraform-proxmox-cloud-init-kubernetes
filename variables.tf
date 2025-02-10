@@ -188,3 +188,8 @@ variable "postgres_conf_admin_pw" {
   type = string
   description = "Admin password for postgresql admin user"
 }
+
+variable "postgres_conf_network_address" {
+  type = string
+  description = "Network Address to allow communication. For example: 10.0.0.0/24"
+}
