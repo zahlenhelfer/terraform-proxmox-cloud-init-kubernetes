@@ -52,6 +52,7 @@ resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
 
   /**
   * FIX: seems to be requiered by debain 12 as is requests a serial_device on socket 0
+  * REF: https://www.reddit.com/r/Proxmox/comments/1gujajr/comment/lxvzbk6/
   */
   serial_device {
     device = "socket"
