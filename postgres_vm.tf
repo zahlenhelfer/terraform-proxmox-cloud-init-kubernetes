@@ -18,7 +18,7 @@ resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
   vm_id         = var.postgres_vm_id
   machine       = "q35"
   scsi_hardware = "virtio-scsi-single"
-  bios          = "ovmf"
+  bios          = "seabios"
 
   cpu {
     cores = var.postgres_vm_cpu_core_count
