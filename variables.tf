@@ -83,17 +83,17 @@ variable "os_images" {
   }))
   default = [{
     name               = "amd64"
-    filename           = "kubernetes-debian-12-generic-amd64-20240507-1740.img"
-    url                = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-amd64-20240507-1740.qcow2"
-    checksum           = "f7ac3fb9d45cdee99b25ce41c3a0322c0555d4f82d967b57b3167fce878bde09590515052c5193a1c6d69978c9fe1683338b4d93e070b5b3d04e99be00018f25"
+    filename           = "kubernetes-debian-12-generic-amd64-20250115-1993.qcow2"
+    url                = "https://cloud.debian.org/images/cloud/bookworm/20250115-1993/debian-12-generic-amd64-20250115-1993.qcow2"
+    checksum           = "75db35c328863c6c84cb48c1fe1d7975407af637b272cfb8c87ac0cc0e7e89c8a1cc840c2d6d82794b53051a1131d233091c4f4d5790557a8540f0dc9fc4f631"
     checksum_algorithm = "sha512"
     datastore_id       = "local"
     },
     {
       name               = "arm64"
-      filename           = "kubernetes-debian-12-generic-arm64-20240507-1740.img"
-      url                = "https://cloud.debian.org/images/cloud/bookworm/20240507-1740/debian-12-generic-arm64-20240507-1740.qcow2"
-      checksum           = "626a4793a747b334cf3bc1acc10a5b682ad5db41fabb491c9c7062001e5691c215b2696e02ba6dd7570652d99c71c16b5f13b694531fb1211101d64925a453b8"
+      filename           = "kubernetes-debian-12-generic-arm64-20250115-1993.qcow2"
+      url                = "https://cloud.debian.org/images/cloud/bookworm/20250115-1993/debian-12-generic-arm64-20250115-1993.qcow2"
+      checksum           = "edab065c95a5b7e117327739f7c9326ea72e3307f16d62d3a214347ab7b86c9d44e430169d7835fd4ec07f93ef54fa5c1654418d2ee1f305384f03186bdd0010"
       checksum_algorithm = "sha512"
       datastore_id       = "local"
     }
