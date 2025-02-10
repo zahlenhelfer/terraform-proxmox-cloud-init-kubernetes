@@ -4,7 +4,7 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
   datastore_id = var.pve_default_datastore_id
 
   source_raw {
-    data = templatefile("${path.module}/postgres/templates/postgres_cloud_init.yaml.tftpl", {
+    data = templatefile("${path.module}/templates/postgres_cloud_init.yaml.tftpl", {
       #defaults
       hostname      = var.postgres_vm_name
       user          = var.vm_user

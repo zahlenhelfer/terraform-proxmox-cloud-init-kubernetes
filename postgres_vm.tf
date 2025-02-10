@@ -8,12 +8,11 @@ resource "macaddress" "mac-vm-postgresql" {}
 * VM for postgresql
 * 
 */
-
 resource "proxmox_virtual_environment_vm" "vm-k8s-postgresql" {
   depends_on    = [macaddress.mac-vm-postgresql]
   node_name     = var.pve_default_node
   name          = var.postgres_vm_name
-  description   = each.value.vm_description
+  description   = var.postgres_vm_description
   tags          = var.postgresql_vm_tags.tags
   on_boot       = true
   vm_id         = var.postgres_vm_id
