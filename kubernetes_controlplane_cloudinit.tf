@@ -17,7 +17,7 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
       debian_primary_security_mirror = var.debian_primary_security_mirror
       #kubernetes related
       kubernetes_version = var.kubernetes_version
-      ip = one(split("/",each.value.ip))
+      ip = one(split("/", each.value.ip))
     })
     file_name = format("%s-%s.yaml", "${var.kubernetes_vm_controlplane_startid + each.value.id_offset}", each.value.name)
   }
