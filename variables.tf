@@ -10,6 +10,12 @@ variable "pve_default_node" {
 variable "pve_default_datastore_id" {
   type        = string
   description = "Default datastore to use"
+  default     = "local-lvm"
+}
+
+variable "pve_default_snippet_datastore_id" {
+  type        = string
+  description = "Default datastore to use"
   default     = "local"
 }
 

@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-postgres" {
   node_name    = coalesce(var.postgres_vm_node, var.pve_default_node)
   content_type = "snippets"
-  datastore_id = var.pve_default_datastore_id
+  datastore_id = var.pve_default_snippet_datastore_id
 
   source_raw {
     data = templatefile("${path.module}/templates/postgres_cloud_init.yaml.tftpl", {
