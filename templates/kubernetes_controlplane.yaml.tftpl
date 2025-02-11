@@ -113,8 +113,8 @@ runcmd:
   - sysctl --system
   - systemctl restart containerd
   # configure kubernetes with kubeadm
-  - kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
-  - cels patch /etc/kubernetes/manifests/kube-apiserver.yaml /root/manifests/kube-apiserver-patch.yaml > /root/manifests/kube-apiserver.yaml
+  #- kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
+  #- cels patch /etc/kubernetes/manifests/kube-apiserver.yaml /root/manifests/kube-apiserver-patch.yaml > /root/manifests/kube-apiserver.yaml
   # enable qemu-guest-agent and let terraform know the system is ready
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
