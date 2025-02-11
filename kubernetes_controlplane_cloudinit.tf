@@ -18,6 +18,10 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
       #kubernetes related
       kubernetes_version = var.kubernetes_version
       ip = element(split("/", each.value.ip),0)
+      #kine related
+      postgres_username = "kine"
+      postgres_password = var.postgres_conf_kine_pw
+      postgres_ip = element(split("/",var.postgres_vm_ipv4),0)
     })
     file_name = format("%s-%s.yaml", "${var.kubernetes_vm_controlplane_startid + each.value.id_offset}", each.value.name)
   }
