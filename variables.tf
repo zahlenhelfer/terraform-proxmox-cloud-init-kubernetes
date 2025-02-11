@@ -279,6 +279,7 @@ variable "kubernetes_controlplanes" {
     disk_datastore_id = optional(string)
     #network
     ip = string
+    ip_witho
     gateway = optional(string)
   }))
   description = "Kubernetes Control Plane definition for cluster"
