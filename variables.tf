@@ -201,3 +201,79 @@ variable "postgres_conf_network_address" {
   type = string
   description = "Network Address to allow communication. For example: 10.0.0.0/24"
 }
+
+/**
+* Kubernetes General Configuration
+*/ 
+variable "kubernetes_vm_controlplane_description" {
+  type        = string
+  default     = "A database as kubernetes backend used by kine."
+  description = "Description for vm in proxmox."
+}
+
+variable "kubernetes_vm_controlplane_tags" {
+  description = "VM tags for proxmox."
+  type = object({
+    tags = list(string)
+  })
+  default = {
+    tags = ["kubernetes", "controlplane"]
+  }
+}
+
+variable "kubernetes_version" {
+  type = string
+  default = "1.31"
+  description = "Kubernetes version to install and use."
+}
+
+/**
+* Kubernetes Control Plane Configuration
+*/
+variable "kubernetes_vm_controlplane_startid" {
+  type        = number
+  default     = 10200
+  description = "Starting number for control plane vm ids."
+}
+
+variable "kubernetes_vm_controlplane_cpu" {
+  type        = number
+  default     = 2
+  description = "Amount of cores cpu to allocate"
+}
+
+variable "kubernetes_vm_controlplane_memory" {
+  type        = number
+  default     = 2048
+  description = "Amount of memory to allocate"
+}
+
+variable "kubernetes_vm_controlplane_arch" {
+  type        = string
+  default     = "amd64"
+  description = "System architecture to use"
+}
+
+variable "kubernetes_vm_controlplane_disk_size" {
+  type = number
+  default = 32
+  description = "Size of control plane vm disk."
+}
+
+variable "kubernetes_controlplanes" {
+  type = list(object({
+    #general configuration
+    node = optional(string)
+    name = string
+    id_offset = number
+    #vm configuration
+    vm_cpu_count = optional(number)
+    vm_memory_count = optional(number)
+    os_image_type = optional(string)
+    disk_datastore_id = optional(string)
+    #network
+    ip = string
+    gateway = string
+  }))
+  description = "Kubernetes Control Plane definition for cluster"
+}
