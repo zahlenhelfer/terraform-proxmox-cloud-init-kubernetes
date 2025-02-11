@@ -233,6 +233,12 @@ variable "kubernetes_version" {
   description = "Kubernetes version to install and use."
 }
 
+variable "kubernetes_version_semantic" {
+  type = string
+  default = "1.31.5"
+  description = "Semantic kubernetes version to install and use."
+}
+
 /**
 * Kubernetes Control Plane Configuration
 */

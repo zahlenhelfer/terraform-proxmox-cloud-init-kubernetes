@@ -17,6 +17,7 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
       debian_primary_security_mirror = var.debian_primary_security_mirror
       #kubernetes related
       kubernetes_version = var.kubernetes_version
+      kubernetes_version_semantic = var.kubernetes_version_semantic
       ip = element(split("/", each.value.ip),0)
       #kine related
       postgres_username = "kine"
