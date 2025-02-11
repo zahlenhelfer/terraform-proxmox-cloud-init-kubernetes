@@ -79,7 +79,6 @@ variable "os_images" {
     url                = string
     checksum           = string
     checksum_algorithm = string
-    datastore_id       = string
   }))
   default = [{
     name               = "amd64"
@@ -87,7 +86,6 @@ variable "os_images" {
     url                = "https://cloud.debian.org/images/cloud/bookworm/20250115-1993/debian-12-generic-amd64-20250115-1993.qcow2"
     checksum           = "75db35c328863c6c84cb48c1fe1d7975407af637b272cfb8c87ac0cc0e7e89c8a1cc840c2d6d82794b53051a1131d233091c4f4d5790557a8540f0dc9fc4f631"
     checksum_algorithm = "sha512"
-    datastore_id       = "local"
     },
     {
       name               = "arm64"
@@ -95,9 +93,14 @@ variable "os_images" {
       url                = "https://cloud.debian.org/images/cloud/bookworm/20250115-1993/debian-12-generic-arm64-20250115-1993.qcow2"
       checksum           = "edab065c95a5b7e117327739f7c9326ea72e3307f16d62d3a214347ab7b86c9d44e430169d7835fd4ec07f93ef54fa5c1654418d2ee1f305384f03186bdd0010"
       checksum_algorithm = "sha512"
-      datastore_id       = "local"
     }
   ]
+}
+
+variable "os_images_datastore_id" {
+  type = string
+  nullable = true
+  description = "Datastore to use for images."
 }
 
 /**
