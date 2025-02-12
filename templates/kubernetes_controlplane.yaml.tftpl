@@ -65,7 +65,7 @@ write_files:
               runAsUser: 0
               runAsGroup: 0
             command: [ "/bin/sh", "-c", "--" ]
-            args: [ "kine --endpoint=postgres://$(postgres_username):$(postgres_password)@${postgres_ip}:5432/kine"]
+            args: [ "kine --endpoint=postgres://${postgres_username}:${postgres_password}@${postgres_ip}:5432/kine"]
 
   - path: /etc/modules-load.d/k8s.conf
     content: |
