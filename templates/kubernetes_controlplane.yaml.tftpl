@@ -110,6 +110,10 @@ runcmd:
   - systemctl restart containerd
   # configure kubernetes with kubeadm
   - kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
+  # copy kube config to user dir for later use
+  - mkdir -p /home/${user}/.kube
+  - cp /etc/kubernetes/admin.conf /home/${user}/.kube/config
+  - chown -R ${user}:${user} /home/${user}/.kube
   # enable qemu-guest-agent and let terraform know the system is ready
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
