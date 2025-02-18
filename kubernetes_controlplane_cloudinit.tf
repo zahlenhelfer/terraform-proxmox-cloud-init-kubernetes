@@ -12,12 +12,14 @@ resource "proxmox_virtual_environment_file" "cloud-init-kubernetes-controlplane"
       user_password = var.vm_user_password
       user_pub_key  = var.vm_user_public_key
       timezone      = var.pve_default_timezone
+      arch = coalesce(each.value.os_image_type, var.kubernetes_vm_controlplane_arch)
       #apt related
       debian_primary_mirror  = var.debian_primary_mirror
       debian_primary_security_mirror = var.debian_primary_security_mirror
       #kubernetes related
       kubernetes_version = var.kubernetes_version
       kubernetes_version_semantic = var.kubernetes_version_semantic
+      kine_version = var.kubernetes_controlplane_kine_version
       ip = element(split("/", each.value.ip),0)
       #kine related
       postgres_username = "kine"

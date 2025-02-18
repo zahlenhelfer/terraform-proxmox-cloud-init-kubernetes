@@ -47,26 +47,22 @@ write_files:
           - http://127.0.0.1:2379
       apiServer:
         timeoutForControlPlane: 1m0s
-  - path: /root/manifests/kube-apiserver-patch.yaml
+  - path: /etc/systemd/system/kine.service
     content: |
-      apiVersion: v1
-      kind: Pod
-      metadata:
-        labels:
-          component: kube-apiserver
-          tier: control-plane
-        name: kube-apiserver
-        namespace: kube-system
-      spec:
-        containers:
-          - image: rancher/kine:v0.10.1-amd64
-            name: kine
-            securityContext:  # Don't do this in real deployment...
-              runAsUser: 0
-              runAsGroup: 0
-            command: [ "/bin/sh", "-c", "--" ]
-            args: [ "kine --endpoint=postgres://${postgres_username}:${postgres_password}@${postgres_ip}:5432/kine"]
+      [Unit]
+      Description=Kine Systemtd Service
 
+      [Service]
+      User=root
+      WorkingDirectory=/usr
+      # kine --endpoint=postgres://kine:test123@10.0.2.20:5432/kine
+      ExecStart=kine --endpoint=postgres://${postgres_username}:${postgres_password}@${postgres_ip}:5432/kine
+      # optional items below
+      Restart=always
+      RestartSec=3
+
+      [Install]
+      WantedBy=multi-user.target
   - path: /etc/modules-load.d/k8s.conf
     content: |
       overlay
@@ -79,8 +75,6 @@ write_files:
 
 packages:
   - qemu-guest-agent
-  - python3
-  - python3-pip
   - net-tools
   - vim
   - apt-transport-https
@@ -96,8 +90,13 @@ runcmd:
   - systemctl restart systemd-sysctl
   - echo "127.0.0.1  ${hostname}" >> /etc/hosts
   - localectl set-locale LANG=en_US.UTF-8
-  # install cels to configure yamls via patch
-  - /usr/bin/pip3 install --prefix /usr cels
+  # install kine
+  - wget -O /usr/local/bin/kine https://github.com/k3s-io/kine/releases/download/${kine_version}/kine-${arch}
+  - chmod +x /usr/local/bin/kine
+  # - reload daemon to pick up kine.service file from write_files (just in case it is no initialized)
+  - systemctl daemon-reload
+  - systemctl enable kine
+  - systemctl start kine
   # install kubernetes
   - curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kubernetes_version}/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
   - echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${kubernetes_version}/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
@@ -113,8 +112,7 @@ runcmd:
   - sysctl --system
   - systemctl restart containerd
   # configure kubernetes with kubeadm
-  #- kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
-  #- cels patch /etc/kubernetes/manifests/kube-apiserver.yaml /root/manifests/kube-apiserver-patch.yaml > /root/manifests/kube-apiserver.yaml
+   kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
   # enable qemu-guest-agent and let terraform know the system is ready
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent

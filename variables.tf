@@ -289,3 +289,9 @@ variable "kubernetes_controlplanes" {
   }))
   description = "Kubernetes Control Plane definition for cluster"
 }
+
+variable "kubernetes_controlplane_kine_version" {
+  type = string
+  default = "v0.13.9"
+  description = "Default value of kine. Refer to https://github.com/k3s-io/kine/releases"
+}
