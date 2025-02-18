@@ -295,3 +295,55 @@ variable "kubernetes_controlplane_kine_version" {
   default = "v0.13.9"
   description = "Default value of kine. Refer to https://github.com/k3s-io/kine/releases"
 }
+
+/**
+* Kubernetes Worker Configuration
+*/
+
+variable "kubernetes_vm_worker_startid" {
+  type        = number
+  default     = 10300
+  description = "Starting number for control plane vm ids."
+}
+
+variable "kubernetes_vm_worker_cpu" {
+  type        = number
+  default     = 2
+  description = "Amount of cores cpu to allocate"
+}
+
+variable "kubernetes_vm_worker_memory" {
+  type        = number
+  default     = 2048
+  description = "Amount of memory to allocate"
+}
+
+variable "kubernetes_vm_worker_arch" {
+  type        = string
+  default     = "amd64"
+  description = "System architecture to use"
+}
+
+variable "kubernetes_vm_worker_disk_size" {
+  type = number
+  default = 32
+  description = "Size of control plane vm disk."
+}
+
+variable "kubernetes_workers" {
+  type = list(object({
+    #general configuration
+    node = optional(string)
+    name = string
+    id_offset = number
+    #vm configuration
+    vm_cpu_count = optional(number)
+    vm_memory_count = optional(number)
+    os_image_type = optional(string)
+    disk_datastore_id = optional(string)
+    #network
+    ip = string
+    gateway = optional(string)
+  }))
+  description = "Kubernetes Worker definition for cluster"
+}
