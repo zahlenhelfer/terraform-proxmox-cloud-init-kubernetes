@@ -51,16 +51,13 @@ write_files:
     content: |
       [Unit]
       Description=Kine Systemtd Service
-
       [Service]
       User=root
-      WorkingDirectory=/usr
-      # kine --endpoint=postgres://kine:test123@10.0.2.20:5432/kine
+      WorkingDirectory=/root
       ExecStart=kine --endpoint=postgres://${postgres_username}:${postgres_password}@${postgres_ip}:5432/kine
       # optional items below
       Restart=always
       RestartSec=3
-
       [Install]
       WantedBy=multi-user.target
   - path: /etc/modules-load.d/k8s.conf
@@ -112,7 +109,7 @@ runcmd:
   - sysctl --system
   - systemctl restart containerd
   # configure kubernetes with kubeadm
-   kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
+  - kubeadm init --config=/root/kubeadm/kubeadm-config.yaml --upload-certs --skip-phases=addon/kube-proxy --ignore-preflight-errors ExternalEtcdVersion 2>&1 || true
   # enable qemu-guest-agent and let terraform know the system is ready
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
