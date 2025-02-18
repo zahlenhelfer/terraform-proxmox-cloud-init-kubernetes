@@ -211,11 +211,6 @@ variable "postgres_conf_network_address" {
 /**
 * Kubernetes General Configuration
 */ 
-variable "kubernetes_vm_controlplane_description" {
-  type        = string
-  default     = "A database as kubernetes backend used by kine."
-  description = "Description for vm in proxmox."
-}
 variable "kubernetes_version" {
   type = string
   default = "1.31"
@@ -239,6 +234,12 @@ variable "kubernetes_vm_controlplane_tags" {
   default = {
     tags = ["kubernetes", "controlplane"]
   }
+}
+
+variable "kubernetes_vm_controlplane_description" {
+  type        = string
+  default     = "A database as kubernetes backend used by kine."
+  description = "Description for vm in proxmox."
 }
 
 variable "kubernetes_vm_controlplane_startid" {
@@ -306,6 +307,12 @@ variable "kubernetes_vm_worker_tags" {
   default = {
     tags = ["kubernetes", "worker"]
   }
+}
+
+variable "kubernetes_vm_worker_description" {
+  type        = string
+  default     = "A database as kubernetes backend used by kine."
+  description = "Description for vm in proxmox."
 }
 
 variable "kubernetes_vm_worker_startid" {
