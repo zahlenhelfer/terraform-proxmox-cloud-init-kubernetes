@@ -7,7 +7,7 @@ resource "macaddress" "mac-vm-kubernetes-worker" {
 } 
 
 /**
-* VM for kubernetes control planes.
+* VM for kubernetes worker planes.
 */
 resource "proxmox_virtual_environment_vm" "vm-k8s-kubernetes-worker" {
   depends_on = [proxmox_virtual_environment_file.cloud-init-kubernetes-worker]
