@@ -9,10 +9,10 @@
 #Step 1: write ip for backup reasons to disk (required for step 3 and 4)
 output "kubernetes_controlplane_root_ip" {
   depends_on = [proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane]
-  value      = proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane.ipv4_addresses[1][0]
+  value      = proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane[element(var.kubernetes_controlplanes,0).name].ipv4_addresses[1][0]
 }
 resource "local_file" "ctrl-ip" {
-  content         = proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane.ipv4_addresses[1][0]
+  content         = proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane[element(var.kubernetes_controlplanes,0).name].ipv4_addresses[1][0]
   filename        = "output/ctrl-ip.txt"
   file_permission = "0644"
 }
