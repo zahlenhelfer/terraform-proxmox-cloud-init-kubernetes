@@ -38,9 +38,13 @@ runcmd:
   - sudo -u postgres psql -c "ALTER USER postgres PASSWORD '${postgre_admin_pw}';"
   - echo "host    all             all             ${postgre_config_address}            md5" >> /etc/postgresql/15/main/pg_hba.conf 
   - echo "listen_addresses = '*'" >> /etc/postgresql/15/main/postgresql.conf 
+  # configure postgresql user kine
   - sudo -u postgres psql -c "create database kine;"
   - sudo -u postgres psql -c "create user kine with encrypted password '${postgre_kine_pw}';"
   - sudo -u postgres psql -c "grant all privileges on database kine to kine;"
+  - sudo -u postgres psql -c "grant usage on schema public to kine;"
+  - sudo -u postgres psql -c "alter database kine owner to kine;"
+  # restart services and enable qumu guest agent
   - systemctl restart postgresql
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
