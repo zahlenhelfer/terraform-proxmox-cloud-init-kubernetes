@@ -10,7 +10,7 @@ resource "macaddress" "mac-vm-kubernetes-worker" {
 * VM for kubernetes control planes.
 */
 resource "proxmox_virtual_environment_vm" "vm-k8s-kubernetes-worker" {
-  depends_on = [ proxmox_virtual_environment_vm.vm-k8s-kubernetes-controlplane ]
+  depends_on = [proxmox_virtual_environment_file.cloud-init-kubernetes-worker]
   for_each = {for each in var.kubernetes_workers: each.name => each}
 
   node_name     = coalesce(each.value.node, var.pve_default_node)
