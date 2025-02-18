@@ -216,17 +216,6 @@ variable "kubernetes_vm_controlplane_description" {
   default     = "A database as kubernetes backend used by kine."
   description = "Description for vm in proxmox."
 }
-
-variable "kubernetes_vm_controlplane_tags" {
-  description = "VM tags for proxmox."
-  type = object({
-    tags = list(string)
-  })
-  default = {
-    tags = ["kubernetes", "controlplane"]
-  }
-}
-
 variable "kubernetes_version" {
   type = string
   default = "1.31"
@@ -242,6 +231,16 @@ variable "kubernetes_version_semantic" {
 /**
 * Kubernetes Control Plane Configuration
 */
+variable "kubernetes_vm_controlplane_tags" {
+  description = "VM tags for proxmox."
+  type = object({
+    tags = list(string)
+  })
+  default = {
+    tags = ["kubernetes", "controlplane"]
+  }
+}
+
 variable "kubernetes_vm_controlplane_startid" {
   type        = number
   default     = 10200
@@ -299,6 +298,15 @@ variable "kubernetes_controlplane_kine_version" {
 /**
 * Kubernetes Worker Configuration
 */
+variable "kubernetes_vm_worker_tags" {
+  description = "VM tags for proxmox."
+  type = object({
+    tags = list(string)
+  })
+  default = {
+    tags = ["kubernetes", "worker"]
+  }
+}
 
 variable "kubernetes_vm_worker_startid" {
   type        = number
