@@ -10,6 +10,7 @@ resource "macaddress" "mac-vm-kubernetes-controlplane" {
 * VM for kubernetes control planes.
 */
 resource "proxmox_virtual_environment_vm" "vm-k8s-kubernetes-controlplane" {
+  depends_on = [ proxmox_virtual_environment_vm.vm-k8s-postgresql ]
   for_each = {for each in var.kubernetes_controlplanes: each.name => each}
 
   node_name     = coalesce(each.value.node, var.pve_default_node)
