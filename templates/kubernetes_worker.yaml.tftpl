@@ -1,4 +1,5 @@
 #cloud-config
+
 users:
   - name: ${user}
     passwd: ${user_password}
@@ -15,10 +16,13 @@ timezone: ${timezone}
 apt:
   primary:
     - arches: [amd64, arm64, i386, default]
-      uri: ${apt_mirror_primary}
+      uri: ${debian_primary_mirror}
   security:
     - arches: [default]
-      uri: ${apt_mirror_security}
+      uri: ${debian_primary_security_mirror}
+
+package_update: true
+package_upgrade: true
 
 write_files:
   - path: /etc/modules-load.d/k8s.conf
@@ -30,9 +34,6 @@ write_files:
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables  = 1
       net.ipv4.ip_forward                 = 1
-
-package_update: true
-package_upgrade: true
 
 packages:
   - qemu-guest-agent
@@ -47,16 +48,17 @@ packages:
   - nfs-common
   - cifs-utils
 
-
 runcmd:
   - systemctl restart systemd-sysctl
   - echo "127.0.0.1  ${hostname}" >> /etc/hosts
   - localectl set-locale LANG=en_US.UTF-8
+  # install kubernetes
   - curl -fsSL https://pkgs.k8s.io/core:/stable:/v${kubernetes_version}/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
   - echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${kubernetes_version}/deb/ /' | tee /etc/apt/sources.list.d/kubernetes.list
   - apt update
   - apt install -y kubelet kubeadm kubectl
   - apt-mark hold kubelet kubeadm kubectl
+  # install and configure containerd
   - apt install -y runc containerd
   - containerd config default | tee /etc/containerd/config.toml
   - sed -i 's/SystemdCgroup = false/SystemdCgroup = true/' /etc/containerd/config.toml
@@ -64,6 +66,8 @@ runcmd:
   - modprobe br_netfilter
   - sysctl --system
   - systemctl restart containerd
-  - ${kubeadm_cmd}
+  # configure kubernetes with kubeadm
+  - ${kubeadm_join_cmd}
+  # enable qemu-guest-agent and let terraform know the system is ready
   - systemctl enable qemu-guest-agent
   - systemctl start qemu-guest-agent
