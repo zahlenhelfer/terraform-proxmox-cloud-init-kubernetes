@@ -20,13 +20,13 @@ variable "pve_default_snippet_datastore_id" {
 }
 
 variable "pve_default_timezone" {
-  type = string
+  type        = string
   description = "Timezone to use for vms"
   default     = "Europe/Berlin"
 }
 
 variable "pve_network_default_gateway" {
-  type = string
+  type        = string
   description = "Default gateway for each vm."
 }
 
@@ -40,21 +40,21 @@ variable "dns_configuration" {
 
 /**
 * User Configuration in VM
-*/ 
+*/
 variable "vm_user" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "User name to use for vm access."
 }
 
 variable "vm_user_password" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "User password to set automatically. Generate a sha256sum obfuscated password."
 }
 
 variable "vm_user_public_key" {
-  type = string
+  type        = string
   description = "Public key for user account to use"
 }
 
@@ -62,14 +62,14 @@ variable "vm_user_public_key" {
 * Debian related configuration
 */
 variable "debian_primary_mirror" {
-  type = string
-  default = "https://deb.debian.org/debian"
+  type        = string
+  default     = "https://deb.debian.org/debian"
   description = "Default mirror to use in cloud init configuration for pulling packages."
 }
 
 variable "debian_primary_security_mirror" {
-  type = string
-  default = "http://security.debian.org/debian-security/"
+  type        = string
+  default     = "http://security.debian.org/debian-security/"
   description = "Default security mirror to use in cloud init configuration for pulling packages."
 }
 
@@ -104,8 +104,8 @@ variable "os_images" {
 }
 
 variable "os_images_datastore_id" {
-  type = string
-  nullable = true
+  type        = string
+  nullable    = true
   description = "Datastore to use for images."
 }
 
@@ -125,8 +125,8 @@ variable "postgres_vm_name" {
 }
 
 variable "postgres_vm_node" {
-  type = string
-  nullable = true
+  type        = string
+  nullable    = true
   description = "Node to provision vm towards. This variable is nullable."
 }
 
@@ -189,37 +189,37 @@ variable "postgres_vm_ipv4" {
 
 variable "postgres_vm_network_gateway" {
   type        = string
-  nullable = true
+  nullable    = true
   description = "Specific network gateway for postgre vm."
 }
 
 variable "postgres_conf_admin_pw" {
-  type = string
+  type        = string
   description = "Admin password for postgresql admin user"
 }
 
 variable "postgres_conf_kine_pw" {
-  type = string
+  type        = string
   description = "Password for postgresql kine user"
 }
 
 variable "postgres_conf_network_address" {
-  type = string
+  type        = string
   description = "Network Address to allow communication. For example: 10.0.0.0/24"
 }
 
 /**
 * Kubernetes General Configuration
-*/ 
+*/
 variable "kubernetes_version" {
-  type = string
-  default = "1.31"
+  type        = string
+  default     = "1.32"
   description = "Kubernetes version to install and use."
 }
 
 variable "kubernetes_version_semantic" {
-  type = string
-  default = "1.31.5"
+  type        = string
+  default     = "1.32.4"
   description = "Semantic kubernetes version to install and use."
 }
 
@@ -267,32 +267,32 @@ variable "kubernetes_vm_controlplane_arch" {
 }
 
 variable "kubernetes_vm_controlplane_disk_size" {
-  type = number
-  default = 32
+  type        = number
+  default     = 32
   description = "Size of control plane vm disk."
 }
 
 variable "kubernetes_controlplanes" {
   type = list(object({
     #general configuration
-    node = optional(string)
-    name = string
+    node      = optional(string)
+    name      = string
     id_offset = number
     #vm configuration
-    vm_cpu_count = optional(number)
-    vm_memory_count = optional(number)
-    os_image_type = optional(string)
+    vm_cpu_count      = optional(number)
+    vm_memory_count   = optional(number)
+    os_image_type     = optional(string)
     disk_datastore_id = optional(string)
     #network
-    ip = string
+    ip      = string
     gateway = optional(string)
   }))
   description = "Kubernetes Control Plane definition for cluster"
 }
 
 variable "kubernetes_controlplane_kine_version" {
-  type = string
-  default = "v0.13.9"
+  type        = string
+  default     = "v0.13.9"
   description = "Default value of kine. Refer to https://github.com/k3s-io/kine/releases"
 }
 
@@ -340,25 +340,31 @@ variable "kubernetes_vm_worker_arch" {
 }
 
 variable "kubernetes_vm_worker_disk_size" {
-  type = number
-  default = 32
+  type        = number
+  default     = 32
   description = "Size of control plane vm disk."
 }
 
 variable "kubernetes_workers" {
   type = list(object({
     #general configuration
-    node = optional(string)
-    name = string
+    node      = optional(string)
+    name      = string
     id_offset = number
     #vm configuration
-    vm_cpu_count = optional(number)
-    vm_memory_count = optional(number)
-    os_image_type = optional(string)
+    vm_cpu_count      = optional(number)
+    vm_memory_count   = optional(number)
+    os_image_type     = optional(string)
     disk_datastore_id = optional(string)
     #network
-    ip = string
+    ip      = string
     gateway = optional(string)
   }))
   description = "Kubernetes Worker definition for cluster"
+}
+
+variable "always_pull_os_images" {
+  type        = bool
+  default     = true
+  description = "Always pull os images from url. This is useful for testing purposes."
 }
