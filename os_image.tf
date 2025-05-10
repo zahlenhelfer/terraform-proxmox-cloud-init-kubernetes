@@ -9,4 +9,8 @@ resource "proxmox_virtual_environment_download_file" "image" {
   url                = each.value.url
   checksum           = each.value.checksum
   checksum_algorithm = each.value.checksum_algorithm
+
+  lifecycle {
+    prevent_destroy = var.always_pull_os_images
+  }
 }
