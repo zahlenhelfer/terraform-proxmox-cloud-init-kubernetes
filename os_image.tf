@@ -1,5 +1,10 @@
+locals {
+  pull_always = var.always_pull_os_images
+}
+
 #image from here: https://cloud.debian.org/images/cloud/bookworm/daily/20240412-1715/
 resource "proxmox_virtual_environment_download_file" "image" {
+
   for_each = { for each in var.os_images : each.name => each }
 
   node_name          = var.pve_default_node
@@ -11,6 +16,6 @@ resource "proxmox_virtual_environment_download_file" "image" {
   checksum_algorithm = each.value.checksum_algorithm
 
   lifecycle {
-    prevent_destroy = var.always_pull_os_images
+    prevent_destroy = local.pull_always
   }
 }
