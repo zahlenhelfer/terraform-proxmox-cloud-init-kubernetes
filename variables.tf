@@ -109,6 +109,12 @@ variable "os_images_datastore_id" {
   description = "Datastore to use for images."
 }
 
+variable "always_pull_os_images" {
+  type        = bool
+  default     = true
+  description = "Always pull os images from url. This is useful for testing purposes."
+}
+
 /**
 * Postgresql configuration.
 */
@@ -361,10 +367,4 @@ variable "kubernetes_workers" {
     gateway = optional(string)
   }))
   description = "Kubernetes Worker definition for cluster"
-}
-
-variable "always_pull_os_images" {
-  type        = bool
-  default     = true
-  description = "Always pull os images from url. This is useful for testing purposes."
 }
