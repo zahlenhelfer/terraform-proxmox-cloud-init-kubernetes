@@ -23,6 +23,9 @@ This module comes in different flavours as we progress in different endeavors. A
   * Release 2.0 is a major redesign of this terraform module and provides a more convienient way of configuring your desired deployment
   * It also introduces kine as etcd replacement
     * Head over to the awesome repository here to get a first grip: https://github.com/k3s-io/kine
+* release/2.1
+  * Release 2.0 with some smaller fixes, additions to lifecycle management 
+  * Upgraded kubernetes to 1.32
 * dev
   * Current development branch which may be highly unstable and is definitly not production ready
 * main
